@@ -24,11 +24,14 @@ module round_square(l, r){
 
 module make_base() {
     
-    linear_extrude(height = bHeight) { 
- 
-         offset(r = -wall)
+    difference() {
+        linear_extrude(height = height, twist = twists, slices = height * 10, scale = scale, convexity = 100) { 
+        
         round_square(length, rc);
-
+        }
+    
+        translate([0,0, bHeight+height/2])
+            cube([length*2,length*2, height], center=true);
     }
        
 }
