@@ -10,7 +10,7 @@ rc      = 15;
 scale   = 1.5;
 twists  = 150;
 wall    = 1.6;
-$fn     = 120;
+$fn     = 100;
 
 module round_square(l, r){
         minkowski()
