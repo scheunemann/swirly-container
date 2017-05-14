@@ -4,10 +4,10 @@
 
 /* [Base] */
 
-size                = 40;
+size            = 40;
 
-// (0 equals a square)
-rounded_corners     = 15;
+// 0 equals a square, size/2 or higher equals a full circle.
+corner_radius   = 15;
 
 /* [Container] */ 
 
@@ -33,6 +33,14 @@ scale = opening_ratio;
 $fn     = roundness;
 
 module round_square(l, r){
+    
+    if (2*r >= l) {
+        
+        circle(l/2);
+        
+    } else {
+    
+    
         minkowski()
         {
             if (r > 0)
@@ -41,6 +49,7 @@ module round_square(l, r){
             //resize square so the quadratic hull remains the same
             square(l- 2*r, center = true);
         }
+    }
 }
 
 module make_base() {
@@ -48,12 +57,12 @@ module make_base() {
     difference() {
         linear_extrude(height = height, twist = twists*direction, slices = height * 10, scale = scale, convexity = 100) { 
         
-        round_square(size, rounded_corners);
+        round_square(size, corner_radius);
         }
     
         // Hack
-        translate([0,0, bottom_height+height/2])
-            cube([size*scale*2,size*scale*2, height], center=true);
+        //translate([0,0, bottom_height+height/2])
+        //    cube([size*scale*2,size*scale*2, height], center=true);
     }
        
 }
@@ -63,10 +72,10 @@ module make_container() {
     linear_extrude(height = height, twist = twists*direction, slices = height * 10, scale = scale, convexity = 100) { 
         difference() {
         
-        round_square(size, rounded_corners);
+        round_square(size, corner_radius);
         
          offset(r = -wall_thickness)
-            round_square(size, rounded_corners);
+            round_square(size, corner_radius);
         
     }
     }
