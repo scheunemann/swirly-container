@@ -6,7 +6,7 @@
 
 size            = 40;
 
-// 0 equals a square, size/2 or higher equals a full circle.
+// Between 0 (square) and Size/2 (circle).
 corner_radius   = 15;
 
 /* [Container] */ 
@@ -30,13 +30,13 @@ opening_ratio   = 1.5;
 
 /* [Hidden] */
 scale = opening_ratio;
-$fn     = roundness;
+$fn     = 100;
 
 module round_square(l, r){
     
     if (2*r >= l) {
         
-        circle(l/2);
+        circle(l/2, $fn = roundness);
         
     } else {
     
@@ -44,7 +44,7 @@ module round_square(l, r){
         minkowski()
         {
             if (r > 0)
-                circle(r);
+                circle(r, $fn = roundness);
             
             //resize square so the quadratic hull remains the same
             square(l- 2*r, center = true);
@@ -61,8 +61,8 @@ module make_base() {
         }
     
         // Hack
-        //translate([0,0, bottom_height+height/2])
-        //    cube([size*scale*2,size*scale*2, height], center=true);
+        translate([0,0, bottom_height+height/2])
+            cube([size*scale*2,size*scale*2, height], center=true);
     }
        
 }
