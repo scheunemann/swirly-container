@@ -53,17 +53,16 @@ module round_square(l, r){
 }
 
 module make_base() {
-    
-    difference() {
-        linear_extrude(height = height, twist = twists*direction, slices = height * 10, scale = scale, convexity = 100) { 
+
+        linear_extrude(
+            height = bottom_height,
+            twist  = twists*bottom_height/height*direction, 
+            slices = bottom_height * 10, 
+            scale  = (bottom_height/height)*(scale-1)+1, 
+            convexity = 100) { 
         
-        round_square(size, corner_radius);
+            round_square(size, corner_radius);
         }
-    
-        // Hack
-        translate([0,0, bottom_height+height/2])
-            cube([size*scale*2,size*scale*2, height], center=true);
-    }
        
 }
 
@@ -77,7 +76,7 @@ module make_container() {
          offset(r = -wall_thickness)
             round_square(size, corner_radius);
         
-    }
+        }
     }
     
 }
